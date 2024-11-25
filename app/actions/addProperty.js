@@ -4,7 +4,7 @@ import Property from "@/models/Property";
 import { getSessionUser } from "@/utils/getSessionUser";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cloudinary } from "@/config/cloudinary";
+import cloudinary from "@/config/cloudinary";
 
 async function addProperty(formData) {
   //connect to DB
@@ -62,12 +62,13 @@ async function addProperty(formData) {
     const imageBase64 = imageData.toString("base64");
 
     //make request to cloudinary
-    const result = await cloudinary.uploader.upload(
-      `data:image/png;base64,${imageBase64}`,
-      {
+    const result = await cloudinary.uploader
+      .upload(`data:image/png;base64,${imageBase64}`, {
         folder: "propertyPulse",
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     //secure url needed to access image
     imageUrls.push(result.secure_url);
   }
