@@ -7,15 +7,15 @@ import { revalidatePath } from "next/cache";
 async function bookmarkProperty(propertyId) {
   await connectDB();
 
-  const sessionUser = await getSessionuser();
+  const sessionUser = await getSessionUser();
 
   if (!sessionUser || !sessionUser.userId) {
     throw new Error("User ID is required");
   }
 
-  const { userId } = sessionUser.userId;
+  const { userId } = sessionUser;
   const user = await User.findById(userId);
-  const isBookmarked = user.bookmarks.includes(propertyId);
+  let isBookmarked = user.bookmarks.includes(propertyId);
   let message;
 
   if (isBookmarked) {
