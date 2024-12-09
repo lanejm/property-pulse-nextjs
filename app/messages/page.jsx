@@ -21,7 +21,7 @@ const MessagesPage = async () => {
     .populate("sender", "username")
     .populate("property", "name")
     .lean();
-
+  //unread messages at the top of list
   const messages = [...unreadMessages, ...readMessages].map((messageDoc) => {
     const message = convertToSerializableObject(messageDoc);
     message.sender = convertToSerializableObject(messageDoc.sender);
