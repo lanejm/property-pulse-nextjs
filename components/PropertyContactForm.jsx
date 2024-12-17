@@ -1,7 +1,6 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useActionState } from "react";
 //react 19 uses useActionState in place of useFormState
-import { useFormState } from "react-dom";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import addMessage from "@/app/actions/addMessage";
@@ -9,7 +8,7 @@ import SubmitMessageButton from "./SubmitMessageButton";
 const PropertyContactForm = ({ property }) => {
   const { data: session } = useSession();
   //useActionState for React 19 instead of useFormState
-  const [state, formAction] = useFormState(addMessage, {});
+  const [state, formAction] = useActionState(addMessage, {});
   useEffect(() => {
     if (state.error) toast.error(state.error);
     if (state.submitted) toast.success("Message sent successfully!");
